@@ -6,8 +6,10 @@ import java.util.Comparator;
  * l stores the weather readings, in the same order as the files from which they came are indexed.
  */
 public class WeatherRecord extends Record{
-	String fullLine = "";
-	int stationAndDate = 0;
+	String[] readings;
+	String station;
+	String date;
+	boolean stationAndDate = false;
 	
 	/**
 	 * Constructs a new WeatherRecord by passing the parameter to the parent constructor
@@ -27,15 +29,13 @@ public class WeatherRecord extends Record{
 			String temp1Str = l1.getString();
 			String temp2Str = l2.getString();
 			
-			String[] temp1 = temp1Str.split(" ");
-			String[] temp2 = temp2Str.split(" ");
+			String[] temp1 = temp1Str.split(",");
+			String[] temp2 = temp2Str.split(",");
 			
-			if(temp1[0] == temp2[0]){
-				if(temp1[1] == temp2[0]){
+			if(temp1[0] == temp2[0])
+				if(temp1[1] == temp2[1]){
 					return 1;
 				}
-				return -1;
-			}
 			return 0;
 		}
 		
@@ -58,8 +58,10 @@ public class WeatherRecord extends Record{
 	 */
     public void clear() {
 		// TODO initialize/reset data members
-    	stationAndDate = 0;
-    	fullLine = "";
+    	stationAndDate = false;
+    	readings = new String[super.getNumFiles()*15];
+    	station = null;
+    	date = null;
     }
 
 	/**
@@ -70,17 +72,10 @@ public class WeatherRecord extends Record{
 	 * WeatherRecord should be set to the station and date values which were similarly parsed.
 	 */
     public void join(FileLine li) {
-    	String[] temp = li.getString().split(" ");
+    	String[] temp = li.getString().split(",");
+    	station = temp[0];
+    	date = temp[1];
     	
-    	if(stationAndDate == 0){
-    		fullLine.concat(temp[0]);
-    		fullLine.concat(temp[1]); 
-    	}
-    	for(int i = 0; i < temp.length; ++i){
-    		if(i == 0)
-    			i += 2;
-    		fullLine.concat(temp[i]);
-    	}
     	//TODO
     }
 	
@@ -88,8 +83,6 @@ public class WeatherRecord extends Record{
 	 * See the assignment description and example runs for the exact output format.
 	 */
     public String toString() {
-		// TODO
-		
 		return null;
     }
 }

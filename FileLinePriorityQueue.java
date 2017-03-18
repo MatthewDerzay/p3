@@ -17,7 +17,8 @@ public class FileLinePriorityQueue implements MinPriorityQueueADT<FileLine> {
     public FileLinePriorityQueue(int initialSize, Comparator<FileLine> cmp) {
 		this.cmp = cmp;
 		maxSize = initialSize;
-		
+		currPos = 0;
+
 		lines = new FileLine[initialSize];
 		//TODO
     }
@@ -32,17 +33,22 @@ public class FileLinePriorityQueue implements MinPriorityQueueADT<FileLine> {
 		if(isEmpty())
 			lines[0] = fl;
 		if(cmp.compare(fl, currMax) == 1){
-			lines[currPos + 1] = fl;
+			if(currPos == maxSize)
+				currPos = 0;
+			lines[currPos] = fl;
 			++currPos;
 		}
 		else{
 			
 		}
+		currMax = fl;
     }
 
     public boolean isEmpty() {
-		if(lines[0] == null)
-			return true;
-		return false;
+		for(int i = 0; i < lines.length; ++i){
+			if(lines[i] != null)
+				return false;
+		}
+		return true;
     }
 }
