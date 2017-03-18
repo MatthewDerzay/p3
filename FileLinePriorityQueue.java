@@ -49,6 +49,7 @@ public class FileLinePriorityQueue implements MinPriorityQueueADT<FileLine> {
     }
 
     public void insert(FileLine fl) throws PriorityQueueFullException {
+    	//TODO
 		if(isEmpty())
 			lines[0] = fl;
 		if(cmp.compare(fl, currMax) == 1){
