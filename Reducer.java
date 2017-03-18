@@ -3,6 +3,25 @@ import java.util.*;
 import java.lang.*;
 
 /**
+* Semester:         CS367 Spring 2017
+* PROJECT:          p3
+* FILE:             Reducer.java
+* 
+* TEAM:    20.5
+* Authors: 
+* Author1: Vincent Cunningham, vcunningham@wisc.edu, vcunningham, 001
+* Author2: (name2,email2,netID2,lecture number2)
+* 
+* ---------------- OTHER ASSISTANCE CREDITS 
+* Persons: Identify persons by name, relationship to you, and email. 
+* Describe in detail the the ideas and help they provided. 
+* 
+* Online sources: avoid web searches to solve your problems, but if you do 
+* search, be sure to include Web URLs and description of 
+* of any information you find. 
+////////////////////////////80 columns wide /////////////////////////////// */
+
+/**
  * Reducer solves the following problem: given a set of sorted input files (each
  * containing the same type of data), merge them into one sorted file. 
  *

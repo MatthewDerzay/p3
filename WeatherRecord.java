@@ -1,4 +1,25 @@
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
+
+/**
+* Semester:         CS367 Spring 2017
+* PROJECT:          p3
+* FILE:             WeatherRecord.java
+* 
+* TEAM:    20.5
+* Authors: 
+* Author1: Vincent Cunningham, vcunningham@wisc.edu, vcunningham, 001
+* Author2: (name2,email2,netID2,lecture number2)
+* 
+* ---------------- OTHER ASSISTANCE CREDITS 
+* Persons: Identify persons by name, relationship to you, and email. 
+* Describe in detail the the ideas and help they provided. 
+* 
+* Online sources: avoid web searches to solve your problems, but if you do 
+* search, be sure to include Web URLs and description of 
+* of any information you find. 
+////////////////////////////80 columns wide /////////////////////////////// */
 
 /**
  * The WeatherRecord class is the child class of Record to be used when merging weather data. Station and Date
@@ -6,10 +27,10 @@ import java.util.Comparator;
  * l stores the weather readings, in the same order as the files from which they came are indexed.
  */
 public class WeatherRecord extends Record{
-	String[] readings;
+	List<String> readings = new ArrayList<String>();
+	List<Integer> readingIndexes = new ArrayList<Integer>();		//list for readings, list to track what file they came from
 	String station;
 	String date;
-	boolean stationAndDate = false;
 	
 	/**
 	 * Constructs a new WeatherRecord by passing the parameter to the parent constructor
@@ -23,13 +44,16 @@ public class WeatherRecord extends Record{
 	/**
 	 * This comparator should first compare the stations associated with the given FileLines. If 
 	 * they are the same, then the dates should be compared. 
+	 * 
+	 * @return 0 if station and date are not the same for both lines
+	 * @return 1 if station and date are the same for both lines
 	 */
     private class WeatherLineComparator implements Comparator<FileLine> {
 		public int compare(FileLine l1, FileLine l2) {
 			String temp1Str = l1.getString();
 			String temp2Str = l2.getString();
 			
-			String[] temp1 = temp1Str.split(",");
+			String[] temp1 = temp1Str.split(",");				//split to check without looking at following values
 			String[] temp2 = temp2Str.split(",");
 			
 			if(temp1[0] == temp2[0])
@@ -57,9 +81,8 @@ public class WeatherRecord extends Record{
 	 * the readings with Double.MIN_VALUE
 	 */
     public void clear() {
-		// TODO initialize/reset data members
-    	stationAndDate = false;
-    	readings = new String[super.getNumFiles()*15];
+    	readings = new ArrayList<String>();
+    	readingIndexes = new ArrayList<Integer>();
     	station = null;
     	date = null;
     }
@@ -76,13 +99,27 @@ public class WeatherRecord extends Record{
     	station = temp[0];
     	date = temp[1];
     	
-    	//TODO
+    	for(int i = 2; i < temp.length; i++){						//add all readings to the readings list, and their file index to the index list
+    		readings.add(temp[i]);
+    		readingIndexes.add(li.getFileIterator().getIndex());
+    	}
     }
 	
 	/**
-	 * See the assignment description and example runs for the exact output format.
+	 * Creates a string with the following format:
+	 * @return 'station,date,mod1,mod2,mod3,etc'
 	 */
     public String toString() {
-		return null;
+    	String result = station + "," + date + ",";
+
+    	for(int i = 0; i < readings.size(); i++){
+    		if(readingIndexes.get(i) == i){							//if no value found for that index in this line then toss in a '-'
+    			result.concat("-,");
+    		}
+    		else{													//otherwise add the reading to the line
+    			result.concat(readings.get(i) + ",");
+    		}
+    	}
+		return result.substring(0, result.length() - 1);			//return the line minus the final ','
     }
 }
