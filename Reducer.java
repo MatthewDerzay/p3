@@ -31,8 +31,11 @@ public class Reducer {
     private List<FileIterator> fileList;
     private String type,dirName,outFile;
     private boolean rEmpty = true;
+    private String key;
+	private String[] words;
+	private boolean eJoinR = false;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws PriorityQueueFullException, PriorityQueueEmptyException, IOException {
 		if (args.length != 3) {
 			System.out.println("Usage: java Reducer <weather|thesaurus> <dir_name> <output_file>");
 			System.exit(1);
@@ -59,8 +62,11 @@ public class Reducer {
 
 	/**
 	 * Carries out the file merging algorithm described in the assignment description. 
+	 * @throws PriorityQueueFullException 
+	 * @throws PriorityQueueEmptyException 
+	 * @throws IOException 
 	 */
-    public void run() {
+    public void run() throws PriorityQueueFullException, PriorityQueueEmptyException, IOException {
 		File dir = new File(dirName);
 		File[] files = dir.listFiles();
 		Arrays.sort(files);
@@ -89,29 +95,52 @@ public class Reducer {
 			System.exit(1);
 		}
 		Comparator<FileLine> cmp = r.getComparator();
-		MinPriorityQueueADT<FileLine> queue = new FileLinePriorityQueue((int)files[0].length(), cmp);
+		MinPriorityQueueADT<FileLine> queue = new FileLinePriorityQueue(fileList.size() * 2, cmp);
+		PrintWriter output = new PrintWriter(new FileWriter(outFile));
 		
-		runHelper(r, queue, cmp, fileList);
-    }
-    
-    private void runHelper(Record r, MinPriorityQueueADT<FileLine> queue, Comparator<FileLine> cmp, List<FileIterator> fileList){
-    	for(int i = 0; i < fileList.size(); i++){
+		for(int i = 0; i < fileList.size(); i++){
     		if(fileList.get(i).hasNext())
-				try {
 					queue.insert(fileList.get(0).next());
-				} catch (PriorityQueueFullException e) {
-					e.printStackTrace();
-				}
     	}
-    	if(!queue.isEmpty())
-			if(rEmpty == true)
-				try {
-					r.join(queue.removeMin());
-				} catch (PriorityQueueEmptyException e) {
-					e.printStackTrace();
-				}
-			else{
-				//TODO
+    	while(!queue.isEmpty()){
+			if(rEmpty == true){
+					FileLine li = queue.removeMin();
+					if(type.equals("weather"))
+						words = li.getString().split(",");
+					if(type.equals("thesaurus"))
+						words = li.getString().split(":");
+					
+					r.join(li);
+					if(li.getFileIterator().hasNext())
+						queue.insert(li.getFileIterator().next());
+					rEmpty = false;
+			}else{
+					FileLine li = queue.removeMin();
+					String[] keyword = new String[2];
+					if(type.equals("thesaurus"))
+						keyword[0] = li.getString().split(":")[0];
+					if(type.equals("weather")){
+						keyword[0] = li.getString().split(",")[0];
+						keyword[0] = li.getString().split(",")[1];
+					}
+					
+					if(keyword[0].equals(words[0]))
+						if(type.equals("thesaurus"))
+							eJoinR = true;
+						else if(keyword[1].equals(words[1]) && type.equals("weather"))
+							eJoinR = true;
+					
+					if(eJoinR == true){
+						r.join(li);
+						eJoinR = false;
+					}
+					else{
+						System.out.println("Line output");
+						output.write(r.toString());
+						r.clear();
+						rEmpty = true;
+					}
 			}
+    	}
     }
 }
