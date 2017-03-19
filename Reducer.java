@@ -10,7 +10,7 @@ import java.lang.*;
 * TEAM:    20.5
 * Authors: 
 * Author1: Vincent Cunningham, vcunningham@wisc.edu, vcunningham, 001
-* Author2: Michael Buchman, mbuchman@wisc.edu, mbuchman, 001
+* Author2: (name2,email2,netID2,lecture number2)
 * 
 * ---------------- OTHER ASSISTANCE CREDITS 
 * Persons: Identify persons by name, relationship to you, and email. 
@@ -87,9 +87,22 @@ public class Reducer {
 			System.out.println("Invalid type of data! " + type);
 			System.exit(1);
 		}
-		//TODO
-		MinPriorityQueueADT<FileLine> queue = new FileLinePriorityQueue((int)files[0].length(), r.getComparator());
-
+		Comparator<FileLine> cmp = r.getComparator();
+		MinPriorityQueueADT<FileLine> queue = new FileLinePriorityQueue((int)files[0].length(), cmp);
 		
+		runHelper(r, queue, cmp, fileList);
+    }
+    
+    private void runHelper(Record r, MinPriorityQueueADT<FileLine> queue, Comparator<FileLine> cmp, List<FileIterator> fileList){
+    	for(int i = 0; i < fileList.size(); i++){
+    		if(fileList.get(i).hasNext())
+				try {
+					queue.insert(fileList.get(0).next());
+				} catch (PriorityQueueFullException e) {
+					e.printStackTrace();
+				}
+    	}
+    	if(!queue.isEmpty())
+    		
     }
 }
