@@ -30,6 +30,7 @@ public class Reducer {
     // list of files for stocking the PQ
     private List<FileIterator> fileList;
     private String type,dirName,outFile;
+    private boolean rEmpty = true;
 
     public static void main(String[] args) {
 		if (args.length != 3) {
@@ -103,6 +104,14 @@ public class Reducer {
 				}
     	}
     	if(!queue.isEmpty())
-    		
+			if(rEmpty == true)
+				try {
+					r.join(queue.removeMin());
+				} catch (PriorityQueueEmptyException e) {
+					e.printStackTrace();
+				}
+			else{
+				//TODO
+			}
     }
 }
