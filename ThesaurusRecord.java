@@ -121,7 +121,7 @@ public class ThesaurusRecord extends Record{
     	Collections.sort(syn);
     	
     	for(int i = 0; i < syn.size(); i++){
-    		result.concat(syn.get(i) + ",");							//add all syns in alphabetical order separated by commas
+    		result = result.concat(syn.get(i) + ",");							//add all syns in alphabetical order separated by commas
     	}
     	
 		return result.substring(0, result.length() - 1);				//return the line minus the final ','

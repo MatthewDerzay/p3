@@ -28,7 +28,7 @@ import java.util.List;
  */
 public class WeatherRecord extends Record{
 	List<String> readings = new ArrayList<String>();
-	List<Integer> readingIndexes = new ArrayList<Integer>();		//list for readings, list to track what file they came from
+	List<Integer> readingIndexes;		//list for readings, list to track what file they came from
 	String station;
 	String date;
 	
@@ -82,7 +82,7 @@ public class WeatherRecord extends Record{
 	 */
     public void clear() {
     	readings = new ArrayList<String>();
-    	readingIndexes = new ArrayList<Integer>();
+    	readingIndexes = new ArrayList<Integer>(super.getNumFiles());
     	station = null;
     	date = null;
     }
@@ -101,7 +101,7 @@ public class WeatherRecord extends Record{
     	
     	for(int i = 2; i < temp.length; i++){						//add all readings to the readings list, and their file index to the index list
     		readings.add(temp[i]);
-    		readingIndexes.add(li.getFileIterator().getIndex());
+    		readingIndexes.add(li.getFileIterator().getIndex() - 1, li.getFileIterator().getIndex());
     	}
     }
 	
@@ -113,7 +113,7 @@ public class WeatherRecord extends Record{
     	String result = station + "," + date + ",";
 
     	for(int i = 0; i < readings.size(); i++){
-    		if(readingIndexes.get(i) == i){							//if no value found for that index in this line then toss in a '-'
+    		if(readingIndexes.get(i) == null){							//if no value found for that index in this line then toss in a '-'
     			result.concat("-,");
     		}
     		else{													//otherwise add the reading to the line
