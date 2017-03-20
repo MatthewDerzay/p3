@@ -58,9 +58,11 @@ public class WeatherRecord extends Record{
 			
 			if(temp1[0] == temp2[0])
 				if(temp1[1] == temp2[1]){
-					return 1;
+					return 0;
 				}
-			return 0;
+				if(Integer.parseInt(temp1[1]) > Integer.parseInt(temp2[1]))
+					return 1;
+			return -1;
 		}
 		
 		public boolean equals(Object o) {
@@ -114,12 +116,12 @@ public class WeatherRecord extends Record{
 
     	for(int i = 0; i < readings.size(); i++){
     		if(readingIndexes.get(i) == null){							//if no value found for that index in this line then toss in a '-'
-    			result.concat("-,");
+    			result = result.concat("-,");
     		}
     		else{													//otherwise add the reading to the line
-    			result.concat(readings.get(i) + ",");
+    			result = result.concat(readings.get(i) + ",");
     		}
     	}
-		return result.substring(0, result.length() - 1);			//return the line minus the final ','
+		return result;			//return the line minus the final ','
     }
 }

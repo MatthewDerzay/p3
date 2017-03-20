@@ -58,8 +58,10 @@ public class ThesaurusRecord extends Record{
 			String[] temp2 = temp2Str.split(":");
 			
 			if(temp1[0].equals(temp2[0]))
-					return 1;
-			return 0;
+					return 0;
+			if(temp1[0].charAt(0) > temp2[0].charAt(0))
+				return 1;
+			return -1;
 		}
 		
 		public boolean equals(Object o) {
@@ -124,6 +126,6 @@ public class ThesaurusRecord extends Record{
     		result = result.concat(syn.get(i) + ",");							//add all syns in alphabetical order separated by commas
     	}
     	
-		return result.substring(0, result.length() - 1);				//return the line minus the final ','
+		return result;				//return the line minus the final ','
 	}
 }

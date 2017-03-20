@@ -48,7 +48,7 @@ public class FileLinePriorityQueue implements MinPriorityQueueADT<FileLine> {
 		lines = new FileLine[initialSize];
 		
 		//Debug Line
-		System.out.println(maxSize);
+		//System.out.println(maxSize);
     }
 
     /**
@@ -67,7 +67,7 @@ public class FileLinePriorityQueue implements MinPriorityQueueADT<FileLine> {
 		removedFileLine = lines[curMinPos];
 		
 		//Debug Line
-		System.out.println("This is the removed file line " + removedFileLine + " at position " + curMinPos);
+		//System.out.println("This is the removed file line " + removedFileLine + " at position " + curMinPos);
 		
 		//Erase the minimum value from the queue.
 		lines[curMinPos] = null;
