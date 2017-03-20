@@ -9,6 +9,7 @@ import java.util.Comparator;
 * Authors: 
 * Author1: Vincent Cunningham, vcunningham@wisc.edu, vcunningham, 001
 * Author2: Matt Derzay, mderzay@wisc.edu, mderzay, 001
+* Author3: Michael Buchman, mbuchman@wisc.edu, mbuchman, 001
 * 
 * ---------------- OTHER ASSISTANCE CREDITS 
 * Persons: Identify persons by name, relationship to you, and email. 
