@@ -102,7 +102,7 @@ public class Reducer {
     		if(fileList.get(i).hasNext())
 					queue.insert(fileList.get(i).next());
     	}
-    	if(!queue.isEmpty()){
+    	while(!queue.isEmpty()){
     		FileLine li = queue.removeMin();
     		if(rEmpty == true){
 					if(type.equals("weather")){
