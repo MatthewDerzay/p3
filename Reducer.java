@@ -116,7 +116,7 @@ public class Reducer {
 						queue.insert(li.getFileIterator().next());
 					rEmpty = false;
     		}else{
-					String[] keyword = new String[2];
+					String[] keyword = new String[10];
 					if(type.equals("thesaurus"))
 						keyword[0] = li.getString().split(":")[0];
 					if(type.equals("weather")){
@@ -128,25 +128,24 @@ public class Reducer {
 						if(type.equals("thesaurus"))
 							eJoinR = true;
 						else if(keyword[1].equals(words[1]) && type == "weather")
+							System.out.println("here");
 							eJoinR = true;
 					}
 				
-						if(eJoinR == true){
-							r.join(li);
-							if(li.getFileIterator().hasNext())
-								queue.insert(li.getFileIterator().next());
-							eJoinR = false;
-						}
-						else{
-							System.out.println(r.toString());
-							output.println(r.toString());
-							r.clear();
-							queue.insert(li);
-							rEmpty = true;
-						}
+					if(eJoinR == true){
+						r.join(li);
+						if(li.getFileIterator().hasNext())
+							queue.insert(li.getFileIterator().next());
+						eJoinR = false;
+					}
+					else{
+						output.println(r.toString());
+						r.clear();
+						queue.insert(li);
+						rEmpty = true;
+					}
 			}
     	}
-		System.out.println(r.toString());
 		output.println(r.toString());
 		r.clear();
     	output.close();
