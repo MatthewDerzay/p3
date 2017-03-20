@@ -28,7 +28,9 @@ import java.util.List;
  */
 
 public class ThesaurusRecord extends Record{
-	List<String> syn = new ArrayList<String>();			//list to hold all of the synonyms for the current keyword
+	//list to hold all of the synonyms for the current keyword
+	List<String> syn = new ArrayList<String>();		
+	//Next input word from the file.
 	String word;
 	
 	/**
@@ -51,12 +53,15 @@ public class ThesaurusRecord extends Record{
 	 */
 	private class ThesaurusLineComparator implements Comparator<FileLine> {
 		public int compare(FileLine l1, FileLine l2) {
+			//String versions of the filelines
 			String temp1Str = l1.getString();
 			String temp2Str = l2.getString();
 			
+			//Splitting the strings by the 
 			String[] temp1 = temp1Str.split(":");
 			String[] temp2 = temp2Str.split(":");
 			
+			//Determine the greater value of the two lines.
 			if(temp1[0].equals(temp2[0]))
 					return 0;
 			if(temp1[0].charAt(0) > temp2[0].charAt(0))
@@ -89,10 +94,12 @@ public class ThesaurusRecord extends Record{
 	 * which are not already found in this ThesaurusRecord's list of synonyms.
 	 */
     public void join(FileLine w) {
+	//Split the line by :.
     	String[] temp = w.getString().split(":");
     	word = temp[0];
     	String[] tempWords = temp[1].split(",");
     	
+	//Add syns and checks for duplicates.
     	for(int i = 0; i < tempWords.length; i++){
     		if(!wordInSyn(tempWords[i]))
     			syn.add(tempWords[i]);
@@ -122,10 +129,10 @@ public class ThesaurusRecord extends Record{
     	String result = word + ":";
     	Collections.sort(syn);
     	
+	//Creates a string that has all the synynoms in it,
     	for(int i = 0; i < syn.size(); i++){
     		result = result.concat(syn.get(i) + ",");							//add all syns in alphabetical order separated by commas
     	}
-    	
-		return result.substring(0, result.length() - 1);				//return the line minus the final ','
+	return result.substring(0, result.length() - 1);				//return the line minus the final ','
 	}
 }
