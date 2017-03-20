@@ -28,7 +28,7 @@ import java.util.List;
  */
 public class WeatherRecord extends Record{
 	List<String> readings = new ArrayList<String>();
-	int[] readingIndexes;		//list for readings, list to track what file they came from
+	List<Integer> readingIndexes;		//list for readings, list to track what file they came from
 	String station;
 	String date;
 	
@@ -49,6 +49,7 @@ public class WeatherRecord extends Record{
 	 * @return 1 if station and date are the same for both lines
 	 */
     private class WeatherLineComparator implements Comparator<FileLine> {
+    	
 		public int compare(FileLine l1, FileLine l2) {
 			String temp1Str = l1.getString();
 			String temp2Str = l2.getString();
@@ -56,15 +57,19 @@ public class WeatherRecord extends Record{
 			String[] temp1 = temp1Str.split(",");				//split to check without looking at following values
 			String[] temp2 = temp2Str.split(",");
 			
-			if(temp1[0] == temp2[0]){
+			if(temp1[0] == temp2[0]) {
 				if(temp1[1] == temp2[1]){
 					return 0;
-				}
-				if(Integer.parseInt(temp1[1]) > Integer.parseInt(temp2[1]))
+				} else if(Integer.parseInt(temp1[1]) > Integer.parseInt(temp2[1])) {
 					return 1;
+				} else {
+					return -1;
+				}
+			} else if(Integer.parseInt(temp1[0]) > Integer.parseInt(temp2[0])) {
+				return 1;
+			} else {
 				return -1;
 			}
-			return 0;
 		}
 		
 		public boolean equals(Object o) {
@@ -86,7 +91,7 @@ public class WeatherRecord extends Record{
 	 */
     public void clear() {
     	readings = new ArrayList<String>();
-    	readingIndexes = new int[super.getNumFiles()];
+    	readingIndexes = new ArrayList<Integer>(super.getNumFiles());
     	station = null;
     	date = null;
     }
@@ -105,7 +110,7 @@ public class WeatherRecord extends Record{
     	
     	for(int i = 2; i < temp.length; i++){						//add all readings to the readings list, and their file index to the index list
     		readings.add(temp[i]);
-    		readingIndexes[li.getFileIterator().getIndex()] = li.getFileIterator().getIndex();
+    		readingIndexes.add(li.getFileIterator().getIndex() - 1, li.getFileIterator().getIndex());
     	}
     }
 	
@@ -117,7 +122,7 @@ public class WeatherRecord extends Record{
     	String result = station + "," + date + ",";
 
     	for(int i = 0; i < readings.size(); i++){
-    		if(readingIndexes[i] != i){							//if no value found for that index in this line then toss in a '-'
+    		if(readingIndexes.get(i) == null){							//if no value found for that index in this line then toss in a '-'
     			result = result.concat("-,");
     		}
     		else{													//otherwise add the reading to the line
@@ -127,3 +132,4 @@ public class WeatherRecord extends Record{
 		return result.substring(0, result.length() - 1);			//return the line minus the final ','
     }
 }
+
