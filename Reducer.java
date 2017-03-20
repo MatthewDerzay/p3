@@ -102,7 +102,7 @@ public class Reducer {
     		if(fileList.get(i).hasNext())
 					queue.insert(fileList.get(i).next());
     	}
-    	while(!queue.isEmpty()){
+    	while(linesLeft(fileList)){
     		FileLine li = queue.removeMin();
     		if(rEmpty == true){
 					if(type.equals("weather")){
@@ -125,10 +125,9 @@ public class Reducer {
 					}
 				
 					if(keyword[0].equals(words[0])){
-						System.out.println(keyword[1] + " " + words[1]);
 						if(type.equals("thesaurus"))
 							eJoinR = true;
-						else if(keyword[1].equals(words[1]))
+						else if(keyword[1].equals(words[1]) && type == "weather")
 							eJoinR = true;
 					}
 				
@@ -140,7 +139,7 @@ public class Reducer {
 						}
 						else{
 							System.out.println(r.toString());
-							output.println(r.toString());
+							output.write(r.toString());
 							r.clear();
 							queue.insert(li);
 							rEmpty = true;
@@ -148,5 +147,15 @@ public class Reducer {
 			}
     	}
     	output.close();
+    }
+    private boolean linesLeft(List<FileIterator> fileList){
+    	int numFinished = 0;
+    	for(int i = 0; i < fileList.size(); i++){
+    		if(!fileList.get(i).hasNext())
+    			numFinished++;
+    	}
+    	if(numFinished == fileList.size())
+    		return false;
+    	return true;
     }
 }
