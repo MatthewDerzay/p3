@@ -116,7 +116,7 @@ public class WeatherRecord extends Record{
     public String toString() {
     	String result = station + "," + date + ",";
 
-    	for(int i = 0; i < readings.size(); i++){
+    	for(int i = 0; i < readingIndexes.length; i++){
     		if(readingIndexes[i] != i){							//if no value found for that index in this line then toss in a '-'
     			result = result.concat("-,");
     		}
