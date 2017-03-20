@@ -122,6 +122,6 @@ public class WeatherRecord extends Record{
     			result = result.concat(readings.get(i) + ",");
     		}
     	}
-		return result;			//return the line minus the final ','
+		return result.substring(0, result.length() - 1);			//return the line minus the final ','
     }
 }

@@ -133,7 +133,6 @@ public class Reducer {
 					}
 				
 						if(eJoinR == true){
-							System.out.println("got here");
 							r.join(li);
 							if(li.getFileIterator().hasNext())
 								queue.insert(li.getFileIterator().next());

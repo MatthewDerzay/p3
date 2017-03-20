@@ -126,6 +126,6 @@ public class ThesaurusRecord extends Record{
     		result = result.concat(syn.get(i) + ",");							//add all syns in alphabetical order separated by commas
     	}
     	
-		return result;				//return the line minus the final ','
+		return result.substring(0, result.length() - 1);				//return the line minus the final ','
 	}
 }
