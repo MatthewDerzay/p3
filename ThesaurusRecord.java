@@ -11,7 +11,7 @@ import java.util.List;
 * TEAM:    20.5
 * Authors: 
 * Author1: Vincent Cunningham, vcunningham@wisc.edu, vcunningham, 001
-* Author2: (name2,email2,netID2,lecture number2)
+* Author2: Michael Buchman, mbuchman@wisc.edu, mbuchman, 001
 * 
 * ---------------- OTHER ASSISTANCE CREDITS 
 * Persons: Identify persons by name, relationship to you, and email. 
