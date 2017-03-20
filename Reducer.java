@@ -96,13 +96,13 @@ public class Reducer {
 		}
 		Comparator<FileLine> cmp = r.getComparator();
 		MinPriorityQueueADT<FileLine> queue = new FileLinePriorityQueue(fileList.size() * 2, cmp);
-		PrintWriter output = new PrintWriter(new FileWriter(outFile));
+		PrintStream output = new PrintStream(new FileOutputStream(outFile));
 		
 		for(int i = 0; i < fileList.size(); i++){
     		if(fileList.get(i).hasNext())
 					queue.insert(fileList.get(i).next());
     	}
-    	while(linesLeft(fileList)){
+    	while(!queue.isEmpty()){
     		FileLine li = queue.removeMin();
     		if(rEmpty == true){
 					if(type.equals("weather")){
@@ -139,23 +139,16 @@ public class Reducer {
 						}
 						else{
 							System.out.println(r.toString());
-							output.write(r.toString());
+							output.println(r.toString());
 							r.clear();
 							queue.insert(li);
 							rEmpty = true;
 						}
 			}
     	}
+		System.out.println(r.toString());
+		output.println(r.toString());
+		r.clear();
     	output.close();
-    }
-    private boolean linesLeft(List<FileIterator> fileList){
-    	int numFinished = 0;
-    	for(int i = 0; i < fileList.size(); i++){
-    		if(!fileList.get(i).hasNext())
-    			numFinished++;
-    	}
-    	if(numFinished == fileList.size())
-    		return false;
-    	return true;
     }
 }

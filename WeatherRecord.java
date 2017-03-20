@@ -29,8 +29,8 @@ import java.util.List;
 public class WeatherRecord extends Record{
 	List<String> readings = new ArrayList<String>();
 	int[] readingIndexes;		//list for readings, list to track what file they came from
-	String station;
-	String date;
+	int station;
+	int date;
 	
 	/**
 	 * Constructs a new WeatherRecord by passing the parameter to the parent constructor
@@ -60,11 +60,11 @@ public class WeatherRecord extends Record{
 				if(temp1[1] == temp2[1]){
 					return 0;
 				}
-				if(Integer.parseInt(temp1[1]) > Integer.parseInt(temp2[1]))
+				if(Integer.parseInt(temp1[1]) < Integer.parseInt(temp2[1]))
 					return 1;
 				return -1;
 			}
-			return 0;
+			return 1;
 		}
 		
 		public boolean equals(Object o) {
@@ -87,8 +87,8 @@ public class WeatherRecord extends Record{
     public void clear() {
     	readings = new ArrayList<String>();
     	readingIndexes = new int[super.getNumFiles()];
-    	station = null;
-    	date = null;
+    	station = 0;
+    	date = 0;
     }
 
 	/**
@@ -100,8 +100,8 @@ public class WeatherRecord extends Record{
 	 */
     public void join(FileLine li) {
     	String[] temp = li.getString().split(",");
-    	station = temp[0];
-    	date = temp[1];
+    	station = Integer.parseInt(temp[0]);
+    	date = Integer.parseInt(temp[1]);
     	
     	for(int i = 2; i < temp.length; i++){						//add all readings to the readings list, and their file index to the index list
     		readings.add(temp[i]);
